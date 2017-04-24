@@ -13,7 +13,7 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 
-\title{Robust Single Linkage Algorithm and Extract Flat Cluster}
+\title{Robust Single Linkage Algorithm and Extract Flat Clustering}
 \author{Taoran Xue }
 \date{April 2017}
 
@@ -186,6 +186,43 @@ $$ S(C) = \sum_{p \in {C}} (\lambda_p - \lambda_{\mathrm{birth}})$$
 		\S{$r$} $\leftarrow$ \S{$r$} $+$ \T{$r$}.$\lambda - $\birthLambda{\T{$r$}.parent} $\times$ \T{$r$}.childrenSize\;
 	}
 	\caption{Calculate stability of each cluster}
+\end{algorithm}
+
+\section{Flat clustering}
+
+To make hierarchy cluster result to flat cluster result, we require that once the cluster is selected, then the descendant of it cannot be selected. Because hierarchy cluster is nested, selected cluster contains all cluster of its descendant.
+
+\begin{tcolorbox}
+	\begin{definition}
+		Set $SC(C)$ is the sum of the stabilities of the child cluster of cluster $C$.
+		$$SC(C) = \sum_{q \in C}S(c)$$
+	\end{definition}
+\end{tcolorbox}
+
+\begin{algorithm}[H]
+	\SetAlgoNoLine
+	\SetKwData{subtreeStabilities}{subtreeStabilities}
+	\SetKwData{childList}{childList}
+	\SetKwData{tmpNode}{tmpNode}
+	\SetKwFunction{Bfs}{Bfs}
+	\SetKwArray{S}{S}
+	\SetKwArray{L}{L}
+	\KwIn{\S{$n$} $\leftarrow$  stability of every node in condense tree sorted in reverse topological order}
+	\KwOut{\L{$n$} $\leftarrow$ \textbf{True} if index of cluster is selected; \textbf{False} otherwise}
+	\L $\leftarrow$ \{\textbf{True}\}\;
+	\For{$r \leftarrow 0$ \KwTo $n$}{
+		\childList $\leftarrow$ \{list of node whose parent is $r$\}\;
+		\subtreeStabilities $\leftarrow$ $\sum_{c \in \childList} \S{c}$\;
+		\eIf{\subtreeStabilities $>$ \S{$r$}}{
+			\L{$r$} $\leftarrow$ \textbf{False}\;
+			\S{$r$} $\leftarrow$ \subtreeStabilities\;
+		}{
+			\For{\tmpNode \textbf{in} \BFS{$r$}}{
+				\If{\tmpNode $\neq r$}{\L{\tmpNode} $\leftarrow$ \textbf{False}}
+			}
+		}
+	}
+	\caption{Abstract cluster with stabilities}
 \end{algorithm}
 
 \end{document}
