@@ -13,16 +13,20 @@ sns.set_color_codes()
 plot_kwds = {'alpha' : 0.5, 's' : 80, 'linewidths':0}
 
 moons, _ = data.make_moons(n_samples=50, noise=0.05)
-blobs, _ = data.make_blobs(n_samples=50, centers=[(-0.75,2.25), (1.0, 2.0)], cluster_std=0.25)
-test_data = np.vstack([moons, blobs])
+# blobs, _ = data.make_blobs(n_samples=50, centers=[(-0.75,2.25), (1.0, 2.0)], cluster_std=0.25)
+test_data = np.vstack([moons])#, blobs])
+
+# print(test_data.T)
+
 plt.scatter(test_data.T[0], test_data.T[1], color='b', **plot_kwds)
+plt.show()
 
 clusterer = hdbscan.HDBSCAN(min_cluster_size=5, gen_min_span_tree=True)
 clusterer.fit(test_data)
-
-print(clusterer.labels_)
-print(clusterer.probabilities_)
-print(clusterer.cluster_persistence_)
+#
+# print(clusterer.labels_)
+# print(clusterer.probabilities_)
+# print(clusterer.cluster_persistence_)
 
 plt.figure()
 clusterer.minimum_spanning_tree_.plot(edge_cmap='viridis',

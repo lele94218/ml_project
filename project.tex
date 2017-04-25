@@ -8,6 +8,8 @@
 \usepackage{tcolorbox}
 \usepackage[ruled]{algorithm2e}
 
+\usepackage{graphicx}
+\usepackage{subcaption}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -79,7 +81,7 @@ Given the minimal spanning tree, the next step is to convert that into the hiera
 
 \section{Condense tree}
 
-Hierarchy cluster algorithm always gets a large and complicated cluster hierarchy tree. So we try to condense down the cluster hierarchy into a smaller tree. As you can see in the hierarchy above it is often a cluster split is one or two points splitting off from a cluster. We need to eliminate cluster which has fewer points than the \textbf{minimum cluster size}. 
+Hierarchy cluster algorithm always gets a large and complicated cluster hierarchy tree. So we try to condense down the cluster hierarchy into a smaller tree. In another word, we are trying to make cluster tree pruning to get a simpler cluster tree. As you can see in the hierarchy above it is often a cluster split is one or two points splitting off from a cluster. We need to eliminate cluster which has fewer points than the \textbf{minimum cluster size}. 
 
 Initially, we breadth-first search the whole hierarchy tree. When we arrive one cluster, there will be three conditions.
 
@@ -183,7 +185,7 @@ $$ S(C) = \sum_{p \in {C}} (\lambda_p - \lambda_{\mathrm{birth}})$$
 		}
 	}
 	\For{$r \leftarrow 0$ \KwTo $n$}{
-		\S{$r$} $\leftarrow$ \S{$r$} $+$ \T{$r$}.$\lambda - $\birthLambda{\T{$r$}.parent} $\times$ \T{$r$}.childrenSize\;
+		$\S{r} \leftarrow \S{r} + \T{r}.\lambda - $\birthLambda{\T{r}.$\mathrm{parent}$} $\times \T{r}. \mathrm{childrenSize}$ \;
 	}
 	\caption{Calculate stability of each cluster}
 \end{algorithm}
@@ -224,5 +226,76 @@ To make hierarchy cluster result to flat cluster result, we require that once th
 	}
 	\caption{Abstract cluster with stabilities}
 \end{algorithm}
+
+\section{Experiment}
+
+This experiment aims at showing characteristics of this clustering algorithms on datasets that are ``interesting'' but still in 2D. The last dataset is an example of a ``null’' situation for clustering.
+
+\begin{figure}[h!]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{b_figure_1.png}
+		\caption{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{b_figure_2.png}
+		\caption{}
+	\end{subfigure}
+	\caption{Clusters of blobs}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{c_figure_1.png}
+		\caption{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{c_figure_2.png}
+		\caption{}
+	\end{subfigure}
+	\caption{Clusters of circles}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{m_figure_1.png}
+		\caption{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{m_figure_2.png}
+		\caption{}
+	\end{subfigure}
+	\caption{Clusters of moons}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{r_figure_1.png}
+		\caption{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{r_figure_2.png}
+		\caption{}
+	\end{subfigure}
+	\caption{Clusters of random}
+\end{figure}
+
+
+\newpage
+
+For high dimensional data, we test our algorithm on UCI datasets and check the cover rate of each dataset.
+
+
+
+
+\section{References}
+
 
 \end{document}
