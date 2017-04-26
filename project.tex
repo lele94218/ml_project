@@ -8,6 +8,8 @@
 \usepackage{tcolorbox}
 \usepackage[ruled]{algorithm2e}
 
+\usepackage{apacite}
+
 \usepackage{graphicx}
 \usepackage{subcaption}
 
@@ -56,7 +58,7 @@ As we know, real data is messy and has corrupt data, and noise. So we need to ma
 	\label{fig:slabfig}
 \end{figure}
 
-So the authors (Chaudhuri, Dasgupta) of previous paper[1] give a method to robustly process against noise, and, in the paper presentation, I proved that this algorithm can deal with noise problem. Their idea is to define a new version of minimal spanning tree.
+So the authors \cite{chaudhuri2010rates} of previous paper give a method to robustly process against noise, and, in the paper presentation, I proved that this algorithm can deal with noise problem. Their idea is to define a new version of minimal spanning tree.
 
 \begin{tcolorbox}
 \begin{definition}
@@ -64,7 +66,7 @@ Set $r_k(x_i)$ to the distance to $k$th nearest neighbor. For any $r = \text{max
 \end{definition}
 \end{tcolorbox}
 
-In another word, we can convert it to our new definition -- \textbf{mutual reachability distance}:
+\cite{McInnes2017} convert it to our new definition -- \textbf{mutual reachability distance}:
 
 \begin{tcolorbox}
 	\begin{definition}
@@ -75,13 +77,29 @@ In another word, we can convert it to our new definition -- \textbf{mutual reach
 
 As we have mutual reachability distance matrix, we can build the minimum spanning tree very efficiently via Prim's algorithm.
 
+
+\begin{figure}[h!]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{dis_figure1.png}
+		\caption{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{dis_figure2.png}
+		\caption{}
+	\end{subfigure}
+	\caption{Mutual reachability distance}
+\end{figure}
+
+
 \section{Single linkage hierarchy algorithm}
 
 Given the minimal spanning tree, the next step is to convert that into the hierarchy of connected components. This is most easily done in the reverse order: sort the edges of the tree by distance (in increasing order) and then iterate through, creating a new merged cluster for each edge. 
 
 \section{Condense tree}
 
-Hierarchy cluster algorithm always gets a large and complicated cluster hierarchy tree. So we try to condense down the cluster hierarchy into a smaller tree. In another word, we are trying to make cluster tree pruning to get a simpler cluster tree. As you can see in the hierarchy above it is often a cluster split is one or two points splitting off from a cluster. We need to eliminate cluster which has fewer points than the \textbf{minimum cluster size}. 
+Hierarchy cluster algorithm always gets a large and complicated cluster hierarchy tree. So \cite{campello2013density} try to condense down the cluster hierarchy into a smaller tree. In another word, we are trying to make cluster tree pruning to get a simpler cluster tree. As you can see in the hierarchy above it is often a cluster split is one or two points splitting off from a cluster. We need to eliminate cluster which has fewer points than the \textbf{minimum cluster size}. 
 
 Initially, we breadth-first search the whole hierarchy tree. When we arrive one cluster, there will be three conditions.
 
@@ -292,10 +310,24 @@ This experiment aims at showing characteristics of this clustering algorithms on
 
 For high dimensional data, we test our algorithm on UCI datasets and check the cover rate of each dataset.
 
+\begin{center}
+	\begin{tabular}{| l | l | l | l | l |}
+		\hline
+		Datasets & wine & iris & yeast & red wine\\ \hline
+		RSLFC & 49.3\% & 89.3\% & 31.1\% & 4.1\% \\ \hline
+		K-means & 44.9\% & 66.6\% & 20.3\% & 3.2\%  \\ \hline
+		DBSCAN & 0.0\% & 25.1\% & 2.6\% & 0.0\%  \\ \hline
+	\end{tabular}
+\end{center}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.8]{hist1.png}
+\end{figure}
 
 
-
-\section{References}
+\bibliographystyle{apacite}
+\bibliography{mybib.bib}
 
 
 \end{document}
